@@ -1,0 +1,125 @@
+﻿@model IEnumerable<Meida>
+@{
+    ViewData["Title"] = "Home Page";
+}
+<style>
+    .girl{
+        background-color: rgb(239, 203, 209);
+    }
+    .boy{
+        background-color: rgb(47, 147, 240);
+        color:#fff;
+    }
+    #price{
+        font-size: 19px;
+        font-weight: bolder;
+        font-style: italic;
+        color: #7e7979;
+        margin-left: 3px;
+    }
+    .both{
+      background-color:#d4f2f2;
+    }
+</style>
+<br>
+<br>
+<div class="text-center">
+    <h1 class="display-4">Welcome to baby Store</h1>
+    <br>
+    <form class="d-flex mx-auto" id="searchForm" asp-controller="Home" asp-action="Index" >
+        <input class="form-control me-sm-2" name="SearchString"  type="search" placeholder="Search">
+        <button class="btn btn-secondary my-2 my-sm-0" value="Filter" type="submit">Search</button>
+      </form>
+       @section Scripts{
+          @{
+              <partial name="_ValidationScriptsPartial" />
+               @* <script>
+                $(function(){
+                     $('#searchForm').submit(function (event) {
+                       event.preventDefault();
+
+                     } )
+                });
+               </script> *@
+          } 
+          }
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<div class="container">
+    <div class="row">
+    
+<!-- Cards -->
+@foreach (var item in Model)
+{
+    @if(@item.Gender == "Girl"){
+        <div class="col-md-3 " style="margin-top: 20px; margin-bottom: 20px;">
+
+  <div class="card  shadow" style="width: 18rem;">
+      @{
+         string imageBase64 = Convert.ToBase64String(item.FileData);
+         string imageSrc = $"data:{item.FileType};base64,{imageBase64}";
+          }
+  <img class="card-img-top" height="288px" src="@imageSrc" alt="Product girl">
+  <div class="card-body girl">
+    <h5 class="card-title">@item.ProductName</h5>
+    <p class="card-text">@item.ProductDesc <span id="price" >@item.Price<span>&dollar;</span></span></p>
+    <a class="btn btn-primary girl"  role="button"  asp-controller="Home" asp-action="CreateOrder" asp-route-id="@item.Id"> Create Order <i class="bi bi-bag-plus-fill"></i></a>
+  </div>
+</div>
+</div>
+
+    }
+    @if(@item.Gender == "Boy"){
+        <div class="col-md-3"  style="margin-top: 20px; margin-bottom: 20px;" >
+       <div class="card shadow" style="width: 18rem;">
+           @{
+         string imageBase64 = Convert.ToBase64String(item.FileData);
+         string imageSrc = $"data:{item.FileType};base64,{imageBase64}";
+          }
+         <img class="card-img-top" height="288px"  src="@imageSrc" alt="Card image cap">
+         <div class="card-body boy">
+           <h5 class="card-title">@item.ProductName</h5>
+           <p class="card-text">@item.ProductDesc  <span id="price" >@item.Price<span>&dollar;</span></span></p>
+           <a  role="button"  asp-controller="Home" asp-action="CreateOrder"  asp-route-id="@item.Id" class="btn btn-primary boy">Create Order <i class="bi bi-bag-plus-fill"></i></a>
+         </div>
+       </div>
+        </div>
+    }
+    @if(@item.Gender == "Both"){
+        <div class="col-md-3 "  style="margin-top: 20px; margin-bottom: 20px;">
+        <div class="card both shadow" style="width: 18rem;">
+              @{
+               string imageBase64 = Convert.ToBase64String(item.FileData);
+               string imageSrc = $"data:{item.FileType};base64,{imageBase64}";
+          }
+
+          <img class="card-img-top" height="288px"  src="@imageSrc" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title"> @item.ProductName</h5>
+            <p class="card-text">@item.ProductDesc  <span id="price" >@item.Price<span>&dollar;</span></span></p>
+            <a  role="button"  asp-controller="Home" asp-action="CreateOrder"  asp-route-id="@item.Id" class="btn btn-primary">Create Order <i class="bi bi-bag-plus-fill"></i></a>
+          </div>
+         </div>
+        </div>
+    }
+}
+</div>
+</div>
+
+
+
+@* <div class="card" style="width: 18rem;">
+    
+  <img class="card-img-top" src="..." alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">Card title</h5>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+</div> *@

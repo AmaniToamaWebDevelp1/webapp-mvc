@@ -1,0 +1,160 @@
+@model Meida
+@{
+    ViewData["Title"] = "Update";
+}
+
+@{
+  byte[] fileData = @Model.FileData;
+  string base64String = Convert.ToBase64String(fileData);
+
+}
+<br>
+<br>
+<br>
+<br>
+@if (Model != null && Model.FileData != null)
+{
+
+       string imageBase64 = Convert.ToBase64String(Model.FileData);
+       string imageSrc = $"data:{Model.FileType};base64,{imageBase64}";
+        <img width="300" height="300" src="@imageSrc" id="imagePreview" class="rounded mx-auto d-block" alt="product img">
+    
+   }
+
+ <br>
+<form enctype="multipart/form-data" asp-action="Update" method="post" >
+
+    <div class="text-secondary text-center"></div>
+   @* <input type="hidden" asp-for="Filename" value="@Model.Filename" id="filenameInput">
+   <input type="hidden" asp-for="FileType" value="@Model.FileType" id="filetypeInput">
+   <input type="hidden" asp-for="FileData" value="@Model.FileData" id="filedataInput"> *@
+    <input type="file"  id="fileInput"  asp-for="File"    onchange="previewImage(event)" accept="image/*" class="form-control">
+  
+   
+  <br>
+     <span asp-validation-for="FileData"  class="text-danger"></span>
+     <label asp-for="ProductName"></label>
+    <input type="text" asp-for="ProductName" class="form-control"  >
+     <span asp-validation-for="ProductName" class="text-danger"></span>
+       <br>
+
+    <label asp-for="ProductDesc"></label>
+    <input type="text" asp-for="ProductDesc" class="form-control"  >
+     <span asp-validation-for="ProductDesc" class="text-danger"></span>
+       <br>
+    <label asp-for="Price"></label>
+    <input type="number" asp-for="Price" class="form-control" >
+     <span asp-validation-for="Price" class="text-danger"></span>
+     <br>
+      <div class="form-group">
+      <label asp-for="Gender" class="form-label mt-4" asp-for="Gender">Select Gender : Girl, Boy, or Both</label>
+      <select asp-for="Gender" class="form-select" id="genderSelection">
+        <option  asp-for="Gender" value="Girl">Girl</option>
+        <option  asp-for="Gender" value="Boy">Boy</option>
+        <option  asp-for="Gender" value="Both">Both</option>
+      </select>
+      <span asp-validation-for="Gender" class="text-danger"></span>
+    </div>
+     
+     
+     <br>
+      <div class="form-group my-4">
+        <button type="submit" class="btn btn-outline-warning" >Update</button>
+     </div>
+
+</form>
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
+
+@if (Model != null && Model.FileData != null)
+{
+    <script>
+        const fileInput = document.querySelector('input[type="file"]');
+        var base64String = '@Html.Raw(base64String)'; // Ensure proper rendering of the C# base64String
+
+        var binaryString = atob(base64String);
+
+        // Create a new Uint8Array from the binary string
+        const byteArray = new Uint8Array(binaryString.length);
+        for (let i = 0; i < binaryString.length; i++) {
+            byteArray[i] = binaryString.charCodeAt(i);
+        }
+
+        // Create a new Blob from the byte array
+        const blob = new Blob([byteArray]);
+
+        // Create a new File object for the image
+        const myFile = new File([blob], '@Model.Filename', {
+            type: '@Model.FileType',
+            lastModified: new Date(),
+        });
+
+        // Now let's create a DataTransfer to get a FileList
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(myFile);
+        fileInput.files = dataTransfer.files;
+    </script>
+}
+<!--
+  var base64String = 'SGVsbG8gd29ybGQh'; // Base64-encoded string
+var decodedString = atob(base64String);
+
+console.log(decodedString); // Output: Hello world!
+
+   //  var arrayBuffer = this.result, array = new Uint8Array(arrayBuffer), binaryString = String.fromCharCode.apply(null,array);
+ 
+  A Blob is an opaque reference to, or handle for, a chunk of data. The name comes from SQL databases, where it means “Binary Large Object.” In JavaScript, Blobs often represent binary data, and they can be large, but neither is required: a Blob could also represent the contents of a small text file.
+-->
+<script>
+ function previewImage(event) {
+    var input = event.target;
+    var reader = new FileReader();
+
+    reader.onload = function () {
+        var img = document.getElementById("imagePreview");
+        img.src = reader.result;
+       // img.style.display = "";
+    };
+
+    reader.readAsDataURL(input.files[0]);
+}
+
+</script>
+
+@* 
+<input type="file" id="fileInput" name="File" />
+
+<script>
+    // Get a reference to our file input
+    const fileInput = document.getElementById('fileInput');
+
+    // Set the value of the file input to the filename
+    fileInput.value = '@filename';
+
+    // Add an event listener to handle file selection
+    fileInput.addEventListener('change', function (event) {
+        const selectedFile = event.target.files[0];
+        
+        // Create a new FileReader instance
+        const reader = new FileReader();
+
+        // Handle the file load event
+        reader.onload = function (loadEvent) {
+            const arrayBuffer = loadEvent.target.result;
+            
+            // Create a new File object for the image
+            const myFile = new File([arrayBuffer], selectedFile.name, { type: selectedFile.type, lastModified: selectedFile.lastModified });
+
+            // Now let's create a DataTransfer to get a FileList
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(myFile);
+            fileInput.files = dataTransfer.files;
+        };
+
+        // Read the file as an ArrayBuffer
+        reader.readAsArrayBuffer(selectedFile);
+    });
+</script> *@

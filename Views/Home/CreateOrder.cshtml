@@ -1,0 +1,138 @@
+@model  OrderInfo
+
+@{
+    ViewData["Title"] = "CreateOrder";
+}
+@{
+    //var media = new Meida();
+    @* var productId = media.Id;
+    byte[] fileData = media.FileData;
+    var fileType = media.FileType; *@
+   // string base64String =  Convert.ToBase64String(fileData);
+   // string imageSrc =  $"data:{fileType};base64,{base64String}";
+}
+<br>
+<br>
+<br>
+@* @if (Model.Item1 != null && Model.Item1.FileData != null)
+{
+    string imageBase64 = Convert.ToBase64String(Model.Item1.FileData);
+    string imageSrc = $"data:{Model.Item1.FileType};base64,{imageBase64}";
+    <img width="300" height="300" src="@imageSrc" id="imagePreview" class="rounded mx-auto d-block" alt="product img">
+
+
+}
+else
+{
+          <p>No image available</p>
+} *@
+
+<br>
+<br>
+<br>
+<h2 class="text-center"> Create Order</h2>
+<br>
+<h5 class="text-center" >
+    Product Id: @ViewBag.Id
+
+</h5>
+<br>
+<div class="row mx-auto">
+    <div class="col-md-4 mx-auto">
+     @* <img width="300" height="300" src="@imageSrc" id="imagePreview" class="rounded mx-auto d-block" alt="product img"> *@
+
+      <h6 class="text-center">
+    Thank you for choosing our services! Your order has been successfully created.
+     We appreciate your business and will do our best to fulfill your requirements. If you have any questions or need further assistance,
+     please don't hesitate to contact our customer support. We look forward to serving you!
+      </h6>
+    </div>
+
+</div>
+<br>
+<br>
+<form   method="post" asp-controller="Home" asp-action="CreateOrderr">
+    <input type="number" asp-for="productId" id="productId" style="display: none;">
+    <label asp-for="Name"></label>
+    <input type="text" asp-for="Name" class="form-control" id="name">
+    <span class="text-danger" asp-validation-for="Name"></span>
+    <br>
+    <label asp-for="Email"></label>
+    <input type="email" class="form-control" asp-for="Email">
+    <span class="text-danger" asp-validation-for="Email"></span>
+    <br>
+    <label asp-for="Phone"></label>
+    <input type="tel" asp-for="Phone" class="form-control">
+    <span class="text-danger" asp-validation-for="Phone"></span>
+    <br>
+    <label asp-for="Age"></label>
+    <input type="number" asp-for="Age" class="form-control">
+    <span class="text-danger" asp-validation-for="Age"></span>
+    <br>
+    
+    <label asp-for="Governorate"></label>
+    <select  class="form-select" asp-for="Governorate" id="">  
+        <option value="North">North</option>
+        <option value="South">South</option>
+        <option value="Bekaa">Bekaa</option>
+        <option value="Lebanon mountain">Lebanon mountain</option>
+    </select>
+    @* <span asp-validation-for="Governorate" class="text-danger"></span> *@
+    <br>
+    <label asp-for="AddressLine"></label>
+    <input type="text" asp-for="AddressLine" class="form-control" id="">
+    <span asp-validation-for="AddressLine" class="text-danger"></span>
+    <br>
+    <label asp-for="City"></label>
+    <select  class="form-select" asp-for="City" id="city">
+        <option value="Tripoli">Tripoli</option>
+        <option value="Beirut">Beirut</option>
+        <option value="Baalbak">Baalbak</option>
+    </select>
+    @* <span class="text-danger" asp-validation-for="City"></span> *@
+    <br>
+    <small class="text-text-secondary-emphasis">
+        <strong>Attention:</strong>
+        If you are under 16 years of age,
+        please provide a parent or guardian's phone number during the registration process. As per our policy, we require parental consent for individuals below the age of 16. This ensures your safety and allows us to provide the best possible service. 
+        <br>
+        Thank you for your understanding.
+    </small>
+    <br>
+    <label   asp-for="ParentsPhone"></label>
+    <input type="tel" asp-for="ParentsPhone"   class="form-control" id="parentLabel" class="from-control">
+    <span id="parentErr" class="texr-danger"></span>
+    <br>
+    <label asp-for="Quantity"></label>
+    <input type="number" asp-for="Quantity" class="form-control">
+    <span class="text-danger" asp-validation-for="Quantity"></span>
+    <br>
+    <label asp-for="WayOfPayment"></label>
+    <select  class="form-select" asp-for="WayOfPayment"  id="WayOfPayment">
+        <option value="Cash">Cash</option>
+        <option value="CreditCard">Credit Card</option>
+    </select>
+    @* <span asp-validation-for="WayOfPayment" class="text-danger"></span> *@
+    <br>
+
+    <label asp-for="CreditCardNum" ></label>
+    <input type="text" id="credit" asp-for="CreditCardNum"  maxlength="16" class="form-control" placeholder="################">
+    <br>
+     <div class="form-group my-4">
+    <input class="btn btn-outline-primary" type="submit" />
+     </div>
+</form>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
+<script>
+    (function(){
+        document.getElementById('productId').value = @ViewBag.Id;
+    })();
+</script>
+
+
+

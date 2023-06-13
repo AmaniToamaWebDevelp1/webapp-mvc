@@ -1,0 +1,77 @@
+@model Meida
+@{
+    ViewData["Title"] = "Upload";
+}
+
+
+<br>
+<br>
+<br>
+<br>
+<div class="row">
+    <div class="col-md-6">
+        <div class="class="rounded mx-auto d-block"">
+            your img
+            <img src="#" width="300" height="300"  id="imagePreview" style="display: none;">
+
+        </div>
+    </div>
+</div>
+
+<form enctype="multipart/form-data" method="post" >
+     <label asp-for="File"></label>
+    <input type="file" asp-for="File" class="form-control" onchange="previewImage(event)" accept="image/*">
+     <span asp-validation-for="FileData" class="text-danger"></span>
+     <br>
+    <label asp-for="ProductName"></label>
+    <input type="text" asp-for="ProductName" class="form-control"  >
+     <span asp-validation-for="ProductName" class="text-danger"></span>
+       <br>
+
+    <label asp-for="ProductDesc"></label>
+    <input type="text" asp-for="ProductDesc" class="form-control"  >
+     <span asp-validation-for="ProductDesc" class="text-danger"></span>
+       <br>
+    <label asp-for="Price"></label>
+    <input type="number" asp-for="Price" class="form-control"  >
+     <span asp-validation-for="Price" class="text-danger"></span>
+     <br>
+      <div class="form-group">
+      <label asp-for="Gender" class="form-label mt-4" asp-for="Gender">Select Gender : Girl, Boy, or Both</label>
+      <select asp-for="Gender" class="form-select" id="genderSelection">
+        <option  asp-for="Gender" value="Girl">Girl</option>
+        <option  asp-for="Gender" value="Boy">Boy</option>
+        <option  asp-for="Gender" value="Both">Both</option>
+      </select>
+      <span asp-validation-for="Gender" class="text-danger"></span>
+    </div>
+     
+     <br>
+     <div class="form-group my-4">
+    <input class="btn btn-outline-primary" type="submit" >
+         
+     </div>
+
+</form>
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
+
+
+<script>
+    function previewImage(event) {
+    var input = event.target;
+    var reader = new FileReader();
+
+    reader.onload = function () {
+        var img = document.getElementById("imagePreview");
+        img.src = reader.result;
+        img.style.display = "";
+    };
+
+    reader.readAsDataURL(input.files[0]);
+}
+
+</script>

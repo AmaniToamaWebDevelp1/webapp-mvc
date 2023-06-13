@@ -1,0 +1,58 @@
+@model Meida
+@{
+    ViewData["Title"] = "Delete";
+}
+<br>
+<br>
+<br>
+<br>
+
+<form enctype="multipart/form-data" asp-action="Delete" method="post" >
+<input asp-for="Id" hidden>
+ @{
+       string imageBase64 = Convert.ToBase64String(Model.FileData);
+       string imageSrc = $"data:{Model.FileType};base64,{imageBase64}";
+   }
+ <img width="300" height="300" class="rounded mx-auto d-block" src="@imageSrc" alt="product img">
+   
+    <input type="file" asp-for="File" id='myfile' disabled class="form-control">
+    <label>Current File: </label>
+     <span>@Model.Filename</span>
+
+     <span asp-validation-for="FileData" class="text-danger"></span>
+     <br>
+     <br>
+     
+
+        <label asp-for="ProductName"></label>
+    <input type="text" asp-for="ProductName" class="form-control" disabled >
+     <span asp-validation-for="ProductName" class="text-danger"></span>
+       <br>
+    <label asp-for="ProductDesc"></label>
+    <input type="text" asp-for="ProductDesc" class="form-control" disabled >
+     <span asp-validation-for="ProductDesc" class="text-danger"></span>
+       <br>
+    <label asp-for="Price"></label>
+    <input type="number" asp-for="Price" class="form-control"disabled >
+     <span asp-validation-for="Price" class="text-danger"></span>
+     
+     <br>
+     <div class="form-group my-4">
+        <button type="submit" class="btn btn-outline-danger" >Delete</button>
+     </div>
+
+</form>
+
+
+    var fileValue = '@ViewBag.FileValue';
+    
+  
+    const input = document.querySelector("input[type=file]");
+     input.value = fileValue;
+
+</script>
+@* <script>
+
+    var fileValue = '@ViewBag.FileValue';
+    document.getElementById('myfile').value = fileValue;
+</script> *@

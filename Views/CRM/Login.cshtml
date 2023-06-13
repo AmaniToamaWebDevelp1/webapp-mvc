@@ -1,0 +1,35 @@
+@model SuperAdmin
+@{
+    ViewData["Title"] = "Login";
+}
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<h1 class="text-center"> Welcome Super Admin</h1>
+<br>
+<h6 class="text-center text-muted"> Login to check your validation, please</h6>
+<form method="post" asp-action="Login">
+    <div class="form-group">
+      <label asp-for="username" class="form-label mt-4"></label>
+      <input type="text" class="form-control" asp-for="username" placeholder="Username" >
+      <span  class="form-text text-danger" asp-validation-for="username" ></span>
+    </div>
+    <div class="form-group">
+      <label asp-for="pwd"   class="form-label mt-4">Password</label>
+      <input asp-for="pwd" type="password" class="form-control"  placeholder="Password">
+      <span  class="form-text text-danger" asp-validation-for="pwd" ></span>
+    </div>
+     <div class="form-group my-4">
+        <button type="submit" class="btn btn-outline-success" >Login</button>
+     </div>
+    </form>
+    @section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
